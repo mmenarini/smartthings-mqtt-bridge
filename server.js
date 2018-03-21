@@ -165,6 +165,7 @@ function migrateState (version) {
  * @param  {Result}  res            Result Object
  */
 function handlePushEvent (req, res) {
+	try {
     var topic = getTopicFor(req.body.name, req.body.type, TOPIC_READ_STATE),
         value = req.body.value;
 
@@ -178,6 +179,12 @@ function handlePushEvent (req, res) {
             status: 'OK'
         });
     });
+
+	} catch(err) {
+		res.set('Content-Type', 'text/text');
+
+	res.status(500).send(err);
+	}
 }
 
 /**
